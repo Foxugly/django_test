@@ -35,6 +35,7 @@ class FooListView(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
+		context['model']= Foo
 		return context
 
 
@@ -46,6 +47,7 @@ class BarListView(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
+		context['model']= Bar
 		return context
 
 
@@ -57,38 +59,8 @@ class MultibarListView(ListView):
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
+		context['model']= Multibar
 		return context
-
-
-
-class FooDetailView(DetailView):
-	model = Foo
-	fields = ['name', 'bar', 'multibars']
-	template_name = 'detail.html'
-	success_url = reverse_lazy('foo')
-
-	def get_object(self):
-		return Foo.objects.get(id=self.kwargs['id'])
-
-
-class BarDetailView(DetailView):
-	model = Bar
-	fields = ['name']
-	template_name = 'detail.html'
-	success_url = reverse_lazy('bar')
-
-	def get_object(self):
-		return Bar.objects.get(id=self.kwargs['id'])
-
-
-class MultibarDetailView(DetailView):
-	model = Multibar
-	fields = ['name']
-	template_name = 'detail.html'
-	success_url = reverse_lazy('multibar')
-
-	def get_object(self):
-		return Multibar.objects.get(id=self.kwargs['id'])
 
 
 
@@ -102,6 +74,11 @@ class FooUpdateView(UpdateView):
 	def get_object(self):
 		return Foo.objects.get(id=self.kwargs['id'])
 
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['model']= self.model
+		return context
+
 
 class BarUpdateView(UpdateView):
 	model = Bar
@@ -112,6 +89,11 @@ class BarUpdateView(UpdateView):
 	def get_object(self):
 		return Bar.objects.get(id=self.kwargs['id'])
 
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['model']= self.model
+		return context
+
 
 class MultibarUpdateView(UpdateView):
 	model = Multibar
@@ -121,3 +103,8 @@ class MultibarUpdateView(UpdateView):
 
 	def get_object(self):
 		return Multibar.objects.get(id=self.kwargs['id'])
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['model']= self.model
+		return context

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load bootstrap4 static i18n hijack_tags common_tags %}
+{% block content %}
+<div class="text-center"><h1>models</h1></div>
+
+<div>
+{% for key, list in apps.items %}
+	{{key}}
+	{% for model in list %}
+		<a href= '{{model.url}}'}>{{model|verbose_name}}</a>
+	{% endfor %}
+{% endfor %}
+</div>
+{% endblock content %}

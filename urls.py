@@ -14,26 +14,56 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from foo.views import FooListView, BarListView, MultibarListView, FooUpdateView, BarUpdateView, MultibarUpdateView, FooCreateView, BarCreateView, MultibarCreateView
 from django.conf.urls.static import static
 from django.conf import settings
+from django.apps import apps
+from django.shortcuts import render
 
+
+def home(request):
+    c = {}
+    available_apps = {}
+    for app in apps.get_models():
+        print(app._meta.verbose_name)
+        if not app.__module__.startswith("django"):
+            a = app.__module__.split('.models')[0]
+            #print(app.get_absolute_url)
+            #print('{path}'.format(path=app.get_absolute_url))
+            #dict_model = {'name':app._meta.verbose_name,'url':app.get_absolute_url}
+            if a in available_apps:
+               available_apps[a].append(app)
+            else:
+                available_apps[a] = [app]
+    print(available_apps)
+    c['apps'] = available_apps
+    return render(request, "index.html", c)
 
 urlpatterns = [
+
+    path('', home, name='home'),
 	path('foo/', FooListView.as_view(), name='foo-list'),
 	path('bar/', BarListView.as_view(), name='bar-list'),
 	path('multibar/', MultibarListView.as_view(), name='multibar-list'),
 
-	path('foo/add/',FooCreateView.as_view(), name="foo-create"),
-	path('bar/add/',BarCreateView.as_view(), name="bar-create"),
-	path('multibar/add/',MultibarCreateView.as_view(), name="multibar-create"),
+	path('foo/add/',FooCreateView.as_view(), name="foo-add"),
+	path('bar/add/',BarCreateView.as_view(), name="bar-add"),
+	path('multibar/add/',MultibarCreateView.as_view(), name="multibar-add"),
 
 	path('foo/<int:id>/',FooUpdateView.as_view(), name="foo"),
 	path('bar/<int:id>/',BarUpdateView.as_view(), name="bar"),
 	path('multibar/<int:id>/',MultibarUpdateView.as_view(), name="multibar"),
 
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('hijack/', include('hijack.urls', namespace='hijack')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls))]
+

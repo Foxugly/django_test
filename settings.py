@@ -25,7 +25,7 @@ SECRET_KEY = '1bjb+q*)dcd6-lwml5nn-n2v&b655^6sc@3#nqt*sg*dbjmo+0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,8 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
+    'hijack',
+    'compat',
+    'hijack_admin',
     'bootstrap4',
-    'foo'
+    'foo',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'urls'
@@ -65,6 +70,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'common_tags': 'common_tags',
+                'admin.urls': 'django.contrib.admin.templatetags.admin_urls',
+            },
         },
     },
 ]
@@ -87,18 +96,10 @@ DATABASES = {
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {   'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',    },
+    {   'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',    },
+    {   'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',    },
+    {   'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',    },
 ]
 
 
@@ -106,13 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'Europe/Brussels'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -124,3 +121,24 @@ STATIC_URL = '/static/'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # COMMENT TO PROD / ACTIVE TO TEST
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
+
+
+HIJACK_LOGIN_REDIRECT_URL = '/'
+HIJACK_LOGOUT_REDIRECT_URL = '/'
+HIJACK_DISPLAY_WARNINGS = True
+HIJACK_USE_BOOTSTRAP = True
+HIJACK_ALLOW_GET_REQUESTS = True
+
+# if AUTH_USER_MODEL then HIJACK_REGISTER_ADMIN = False
+HIJACK_REGISTER_ADMIN = True
+#AUTH_USER_MODEL = "users.MyUser" 
+
+
+
+if DEBUG:
+    def show_toolbar(request):
+        return True
+
+    DEBUG_TOOLBAR_CONFIG = {
+        'SHOW_TOOLBAR_CALLBACK': 'settings.show_toolbar',
+    }
