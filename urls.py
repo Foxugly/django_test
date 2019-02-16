@@ -26,19 +26,20 @@ def home(request):
     c = {}
     available_apps = {}
     for app in apps.get_models():
-        print(app._meta.verbose_name)
         if not app.__module__.startswith("django"):
             a = app.__module__.split('.models')[0]
-            #print(app.get_absolute_url)
-            #print('{path}'.format(path=app.get_absolute_url))
-            #dict_model = {'name':app._meta.verbose_name,'url':app.get_absolute_url}
             if a in available_apps:
                available_apps[a].append(app)
             else:
                 available_apps[a] = [app]
-    print(available_apps)
     c['apps'] = available_apps
     return render(request, "index.html", c)
+
+
+def test(request):
+    return render(request,"test.html")
+
+
 
 urlpatterns = [
 
@@ -46,7 +47,7 @@ urlpatterns = [
 	path('foo/', FooListView.as_view(), name='foo-list'),
 	path('bar/', BarListView.as_view(), name='bar-list'),
 	path('multibar/', MultibarListView.as_view(), name='multibar-list'),
-
+    path('test/', test, name='test'),
 	path('foo/add/',FooCreateView.as_view(), name="foo-add"),
 	path('bar/add/',BarCreateView.as_view(), name="bar-add"),
 	path('multibar/add/',MultibarCreateView.as_view(), name="multibar-add"),

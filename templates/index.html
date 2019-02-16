@@ -3,12 +3,20 @@
 {% block content %}
 <div class="text-center"><h1>models</h1></div>
 
-<div>
+<div class="card">
 {% for key, list in apps.items %}
-	{{key}}
+	<div class="card-header">
+		<h5>{{key}}</h5>
+	</div>
+	<div class="card-body">
+		<table class="table table-striped">
+			<tbody>
 	{% for model in list %}
-		<a href= '{{model.url}}'}>{{model|verbose_name}}</a>
+		<tr><td><a href= '{{model.url}}'}>{{model|verbose_name}}</a></td></tr>
 	{% endfor %}
+		  </tbody>
+		</table>
+	</div>
 {% endfor %}
 </div>
 {% endblock content %}

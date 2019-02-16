@@ -3,11 +3,18 @@
 
 {% block content %}
 <div class="text-center"><h1>{{model|verbose_name }}</h1></div>
+<fieldset>
 <form method="post" role="form">
 	{% csrf_token %}
-    {% bootstrap_form form %}
-    {% buttons %}
-        <button type="submit" class="btn btn-primary">Submit</button>
-    {% endbuttons %}
+    {% bootstrap_form form layout='horizontal' %}
+    <div class="form-group row">
+    	<div class="col-md-3"></div>
+    	<div class="col-md-9">
+		    {% buttons %}
+		        <button type="submit" class="btn btn-primary">Submit</button>
+		    {% endbuttons %}
+		</div>
+	</div>
 </form>
+</fieldset>
 {% endblock content %}

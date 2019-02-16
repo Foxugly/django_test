@@ -1,26 +1,15 @@
 {% load bootstrap4 static i18n hijack_tags common_tags %}
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="{% static 'select2/css/bootstrap-select.css' %}" />
-		<link rel="stylesheet" type="text/css" href="{% static 'hijack/hijack-styles.css' %}" />
+		  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+		  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		  <link rel="stylesheet" type="text/css" href="{% static 'select2/css/bootstrap-select.css' %}" />
+		  <link rel="stylesheet" type="text/css" href="{% static 'hijack/hijack-styles.css' %}" />
 		<style>
 			body {
 				padding-top: 4.5rem;
-			}
-			.navbar-collapse.collapse.in {
-				display: block!important;
-			}
-
-			.bootstrap-select .dropdown-toggle .filter-option {
-				padding-top: 10px;
-			}
-
-			.dropdown-toggle{
-				padding-top: 0.9rem;
-				padding-bottom: 0.9rem;
 			}
 		</style>
 	</head>
