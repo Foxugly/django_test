@@ -26,9 +26,20 @@
 					</li>
 				</ul>
 				<ul class="navbar-nav navbar-right">
-					<!--<li class="nav-item">
-						<a class="nav-link" href="#">Link2</a>
-					</li>-->
+					<li>
+						<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+							<form name="ui" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+							<input name="language" type="hidden"/>
+							{% get_current_language as LANGUAGE_CODE %}
+							{% get_available_languages as LANGUAGES %}
+							{% get_language_info_list for LANGUAGES as languages %}
+							<div class="btn-group mr-2" role="group">
+							{% for language in languages %}
+							    <a class="btn btn-secondary {% if language.code == LANGUAGE_CODE %}active{% endif %}" href="#" onclick="document.ui.language.value='{{ language.code}}'; document.ui.submit();">{{ language.code| upper }}</a>                     
+							{% endfor %}
+							</div>
+						</div>
+					</li>
 					{% if user.is_authenticated %}
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

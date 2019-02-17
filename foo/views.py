@@ -31,6 +31,7 @@ class MultibarCreateView(CreateBreadcrumbMixin, CreateView):
 class FooListView(ListBreadcrumbMixin, ListView):
 	model = Foo
 	paginate_by = 10
+	ordering = ['pk']
 	template_name = 'list.html'
 	success_url = reverse_lazy('foo_list')
 
@@ -43,6 +44,7 @@ class FooListView(ListBreadcrumbMixin, ListView):
 class BarListView(ListBreadcrumbMixin, ListView):
 	model = Bar
 	paginate_by = 10
+	ordering = ['pk']
 	template_name = 'list.html'
 	success_url = reverse_lazy('foo:bar_list')
 
@@ -55,6 +57,7 @@ class BarListView(ListBreadcrumbMixin, ListView):
 class MultibarListView(ListBreadcrumbMixin, ListView):
 	model = Multibar
 	paginate_by = 10
+	ordering = ['pk']
 	template_name = 'list.html'
 	success_url = reverse_lazy('foo:multibar_list')
 
