@@ -7,13 +7,13 @@ class Bar(models.Model):
 	name=models.CharField(max_length=100)
 
 	def get_absolute_url(self):
-		return reverse('bar', kwargs={'id': self.pk})
+		return reverse('foo:bar_change', kwargs={'pk': self.pk})
 
 	def add_url(self):
-		return  reverse('bar-add')
+		return  reverse('foo:bar_add')
 
 	def url(self):
-		return reverse('bar-list')
+		return reverse('foo:bar_list')
 
 	def __str__(self):
 		return self.name
@@ -26,13 +26,13 @@ class Multibar(models.Model):
 	name=models.CharField(max_length=100)
 
 	def get_absolute_url(self):
-		return reverse('multibar', kwargs={'id': self.pk})
+		return reverse('foo:multibar_change', kwargs={'pk': self.pk})
 
 	def add_url(self):
-		return reverse('multibar-add')
+		return reverse('foo:multibar_add')
 
 	def url(self):
-		return reverse('multibar-list')
+		return reverse('foo:multibar_list')
 
 	def __str__(self):
 		return self.name
@@ -47,13 +47,13 @@ class Foo(models.Model):
 	multibars = models.ManyToManyField(Multibar, blank=True)
 
 	def get_absolute_url(self):
-		return reverse('foo', kwargs={'id': self.pk})
+		return reverse('foo:foo_change', kwargs={'pk': self.pk})
 
 	def add_url(self):
-		return  reverse('foo-add')
+		return  reverse('foo:foo_add')
 
 	def url(self):
-		return reverse('foo-list')
+		return reverse('foo:foo_list')
 
 	def __str__(self):
 		return self.name

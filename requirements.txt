@@ -5,3 +5,4 @@ django-extensions
 jupyter
 django-debug-toolbar
 django-bootstrap4
+django-view-breadcrumbs

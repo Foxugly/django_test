@@ -1,12 +1,12 @@
-{% load bootstrap4 static i18n hijack_tags common_tags %}
+{% load bootstrap4 static i18n hijack_tags common_tags django_bootstrap_breadcrumbs %}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-		  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		  <link rel="stylesheet" type="text/css" href="{% static 'select2/css/bootstrap-select.css' %}" />
-		  <link rel="stylesheet" type="text/css" href="{% static 'hijack/hijack-styles.css' %}" />
+		{% bootstrap_css %}
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="{% static 'select2/css/bootstrap-select.css' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'hijack/hijack-styles.css' %}" />
 		<style>
 			body {
 				padding-top: 4.5rem;
@@ -52,16 +52,15 @@
 		{% hijack_notification %}
 		{% bootstrap_messages %}
 		<div class="container">
-		{% block content %}
-		{% endblock content %}
+			{% block breadcrumbs %}
+			    {% render_breadcrumbs %}
+			{% endblock %}
+			{% block content %}{% endblock content %}
 		</div>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js"></script>
+		{% bootstrap_javascript jquery='full' %}
 		<script type="text/javascript" src="{% static 'select2/js/bootstrap-select.js' %}"></script>
 		<script>
-		$(document).ready(function(){
-		$('select').selectpicker();
-		});
+			$(document).ready(function(){$('select').selectpicker();});
 		</script>
 	</body>
 </html>

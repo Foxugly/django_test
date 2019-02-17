@@ -4,34 +4,35 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from foo.models import Foo, Bar, Multibar
 from django.urls import reverse_lazy
+from view_breadcrumbs import ListBreadcrumbMixin, UpdateBreadcrumbMixin, DetailBreadcrumbMixin, CreateBreadcrumbMixin
 
 
-class FooCreateView(CreateView):
+class FooCreateView(CreateBreadcrumbMixin, CreateView):
 	model = Foo
 	fields = ['name', 'bar', 'multibars']
 	template_name = 'update.html'
-	success_url = reverse_lazy('foo-list')
+	success_url = reverse_lazy('foo:foo_list')
 
 
-class BarCreateView(CreateView):
+class BarCreateView(CreateBreadcrumbMixin, CreateView):
 	model = Bar
 	fields = ['name']
 	template_name = 'update.html'
-	success_url = reverse_lazy('bar-list')
+	success_url = reverse_lazy('foo:bar_list')
 
 
-class MultibarCreateView(CreateView):
+class MultibarCreateView(CreateBreadcrumbMixin, CreateView):
 	model = Multibar
 	fields = ['name']
 	template_name = 'update.html'
-	success_url = reverse_lazy('multibar-list')
+	success_url = reverse_lazy('foo:multibar_list')
 
 
-class FooListView(ListView):
+class FooListView(ListBreadcrumbMixin, ListView):
 	model = Foo
 	paginate_by = 10
 	template_name = 'list.html'
-	success_url = reverse_lazy('foo-list')
+	success_url = reverse_lazy('foo_list')
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -39,11 +40,11 @@ class FooListView(ListView):
 		return context
 
 
-class BarListView(ListView):
+class BarListView(ListBreadcrumbMixin, ListView):
 	model = Bar
 	paginate_by = 10
 	template_name = 'list.html'
-	success_url = reverse_lazy('bar-list')
+	success_url = reverse_lazy('foo:bar_list')
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -51,11 +52,11 @@ class BarListView(ListView):
 		return context
 
 
-class MultibarListView(ListView):
+class MultibarListView(ListBreadcrumbMixin, ListView):
 	model = Multibar
 	paginate_by = 10
 	template_name = 'list.html'
-	success_url = reverse_lazy('multibar-list')
+	success_url = reverse_lazy('foo:multibar_list')
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -63,16 +64,14 @@ class MultibarListView(ListView):
 		return context
 
 
-
-
-class FooUpdateView(UpdateView):
+class FooUpdateView(UpdateBreadcrumbMixin, UpdateView):
 	model = Foo
 	fields = ['name', 'bar', 'multibars']
 	template_name = 'update.html'
-	success_url = reverse_lazy('foo-list')
+	success_url = reverse_lazy('foo:foo_list')
 
 	def get_object(self):
-		return Foo.objects.get(id=self.kwargs['id'])
+		return Foo.objects.get(pk=self.kwargs['pk'])
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -80,14 +79,14 @@ class FooUpdateView(UpdateView):
 		return context
 
 
-class BarUpdateView(UpdateView):
+class BarUpdateView(UpdateBreadcrumbMixin, UpdateView):
 	model = Bar
 	fields = ['name']
 	template_name = 'update.html'
-	success_url = reverse_lazy('bar-list')
+	success_url = reverse_lazy('foo:bar_list')
 
 	def get_object(self):
-		return Bar.objects.get(id=self.kwargs['id'])
+		return Bar.objects.get(pk=self.kwargs['pk'])
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
@@ -95,16 +94,30 @@ class BarUpdateView(UpdateView):
 		return context
 
 
-class MultibarUpdateView(UpdateView):
+class MultibarUpdateView(UpdateBreadcrumbMixin, UpdateView):
 	model = Multibar
 	fields = ['name']
 	template_name = 'update.html'
-	success_url = reverse_lazy('multibar-list')
+	success_url = reverse_lazy('foo:multibar_list')
 
 	def get_object(self):
-		return Multibar.objects.get(id=self.kwargs['id'])
+		return Multibar.objects.get(pk=self.kwargs['pk'])
 
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['model']= self.model
 		return context
+
+
+class FooDetailView(DetailBreadcrumbMixin, DetailView):
+	model = Foo
+
+
+class BarDetailView(DetailBreadcrumbMixin, DetailView):
+	model = Bar
+
+
+class MultibarDetailView(DetailBreadcrumbMixin, DetailView):
+	model = Multibar
+
+

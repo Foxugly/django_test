@@ -15,7 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from foo.views import FooListView, BarListView, MultibarListView, FooUpdateView, BarUpdateView, MultibarUpdateView, FooCreateView, BarCreateView, MultibarCreateView
 from django.conf.urls.static import static
 from django.conf import settings
 from django.apps import apps
@@ -40,22 +39,11 @@ def test(request):
     return render(request,"test.html")
 
 
-
 urlpatterns = [
 
     path('', home, name='home'),
-	path('foo/', FooListView.as_view(), name='foo-list'),
-	path('bar/', BarListView.as_view(), name='bar-list'),
-	path('multibar/', MultibarListView.as_view(), name='multibar-list'),
     path('test/', test, name='test'),
-	path('foo/add/',FooCreateView.as_view(), name="foo-add"),
-	path('bar/add/',BarCreateView.as_view(), name="bar-add"),
-	path('multibar/add/',MultibarCreateView.as_view(), name="multibar-add"),
-
-	path('foo/<int:id>/',FooUpdateView.as_view(), name="foo"),
-	path('bar/<int:id>/',BarUpdateView.as_view(), name="bar"),
-	path('multibar/<int:id>/',MultibarUpdateView.as_view(), name="multibar"),
-
+    path('foo/', include('foo.urls', namespace='foo')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('hijack/', include('hijack.urls', namespace='hijack')),
