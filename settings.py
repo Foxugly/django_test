@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'compat',
     'hijack_admin',
     'bootstrap4',
+    'customuser',
     'foo',
 ]
 
@@ -141,7 +142,7 @@ HIJACK_ALLOW_GET_REQUESTS = True
 
 # if AUTH_USER_MODEL then HIJACK_REGISTER_ADMIN = False
 HIJACK_REGISTER_ADMIN = True
-#AUTH_USER_MODEL = "users.MyUser" 
+AUTH_USER_MODEL = "customuser.CustomUser" 
 
 
 
