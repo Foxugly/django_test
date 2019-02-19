@@ -59,4 +59,4 @@ class Foo(models.Model):
 		return self.name
 
 	class Meta:
-		verbose_name = 'Foo'
+		verbose_name = _('Foo')

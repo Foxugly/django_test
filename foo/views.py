@@ -18,7 +18,7 @@ class BarCreateView(CreateBreadcrumbMixin, CreateView):
 	model = Bar
 	fields = ['name']
 	template_name = 'update.html'
-	success_url = reverse_lazy('foo:bar_list')
+	success_url = reverse_lazy('bar_list')
 
 
 class MultibarCreateView(CreateBreadcrumbMixin, CreateView):
@@ -71,7 +71,7 @@ class FooUpdateView(UpdateBreadcrumbMixin, UpdateView):
 	model = Foo
 	fields = ['name', 'bar', 'multibars']
 	template_name = 'update.html'
-	success_url = reverse_lazy('foo:foo_list')
+	success_url = reverse_lazy('foo_list')
 
 	def get_object(self):
 		return Foo.objects.get(pk=self.kwargs['pk'])
