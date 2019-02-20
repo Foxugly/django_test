@@ -3,15 +3,19 @@
 {% block content %}
 <div class="text-center"><h1>{{model|verbose_name }}</h1></div>
 <div class="text-right"><a href="{{ model.add_url }}" class="btn btn-primary"><span class="fa fa-plus"></span> {% trans 'Add' %}</a></div>
+<p></p>
 <table class="table table-striped">
 <thead>
-    <tr>Name</tr>
+    <tr><td>Name</td><td>Detail</td><td>delete</td></tr>
  </thead>
  <tbody>
 {% for obj in object_list %}
-    <tr><td><a href="{{obj.get_absolute_url}}">{{ obj.name }}</a></td></tr>
+    <tr><td><a href="{{obj.get_absolute_url}}">{{ obj.name }}</a></td>
+    	<td><a class="btn" href="{{obj.get_detail_url}}"><span class="fa fa-eye"></span></a></td>
+    	<td><a class="btn" href="{{obj.get_delete_url}}"><span class="fa fa-trash"></span></a></td>
+    </tr>
 {% empty %}
-    <tr><td>No objects yet.</td></tr>
+    <tr><td>No objects yet.</td><td></td><td></td></tr>
 {% endfor %}
 </tbody>
 </table>

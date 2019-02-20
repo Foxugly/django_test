@@ -1,4 +1,4 @@
-from foo.views import FooListView, BarListView, MultibarListView, FooUpdateView, BarUpdateView, MultibarUpdateView, FooDetailView, BarDetailView, MultibarDetailView, FooCreateView, BarCreateView, MultibarCreateView
+from foo.views import FooListView, BarListView, MultibarListView, FooUpdateView, BarUpdateView, MultibarUpdateView, FooDetailView, BarDetailView, MultibarDetailView, FooCreateView, BarCreateView, MultibarCreateView, FooDeleteView, BarDeleteView, MultibarDeleteView
 from django.urls import path
 from django.apps import apps
 from django.shortcuts import render
@@ -8,7 +8,6 @@ def foo(request):
 	c = {}
 	available_apps = {}
 	for app in apps.get_models():
-		print(app)
 	c['apps'] = available_apps
 	return render(request, "index.html", c)
 
@@ -28,4 +27,7 @@ urlpatterns = [
 	path('foo/<int:pk>/',FooDetailView.as_view(), name="foo_detail"),
 	path('bar/<int:pk>/',BarDetailView.as_view(), name="bar_detail"),
 	path('multibar/<int:pk>/',MultibarDetailView.as_view(), name="multibar_detail"),
+	path('foo/<int:pk>/delete',FooDeleteView.as_view(), name="foo_delete"),
+	path('bar/<int:pk>/delete',BarDeleteView.as_view(), name="bar_delete"),
+	path('multibar/<int:pk>/delete',MultibarDeleteView.as_view(), name="multibar_delete"),
 ]

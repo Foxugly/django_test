@@ -9,10 +9,16 @@ class Bar(models.Model):
 	def get_absolute_url(self):
 		return reverse('foo:bar_change', kwargs={'pk': self.pk})
 
-	def add_url(self):
+	def get_add_url(self):
 		return  reverse('foo:bar_add')
 
-	def url(self):
+	def get_detail_url(self):
+		return reverse('foo:bar_detail', kwargs={'pk': self.pk})
+
+	def get_delete_url(self):
+		return reverse('foo:bar_delete', kwargs={'pk': self.pk})
+
+	def get_list_url(self):
 		return reverse('foo:bar_list')
 
 	def __str__(self):
@@ -28,10 +34,16 @@ class Multibar(models.Model):
 	def get_absolute_url(self):
 		return reverse('foo:multibar_change', kwargs={'pk': self.pk})
 
-	def add_url(self):
-		return reverse('foo:multibar_add')
+	def get_add_url(self):
+		return  reverse('foo:multibar_add')
 
-	def url(self):
+	def get_detail_url(self):
+		return reverse('foo:multibar_detail', kwargs={'pk': self.pk})
+
+	def get_delete_url(self):
+		return reverse('foo:multibar_delete', kwargs={'pk': self.pk})
+
+	def get_list_url(self):
 		return reverse('foo:multibar_list')
 
 	def __str__(self):
@@ -49,10 +61,16 @@ class Foo(models.Model):
 	def get_absolute_url(self):
 		return reverse('foo:foo_change', kwargs={'pk': self.pk})
 
-	def add_url(self):
+	def get_add_url(self):
 		return  reverse('foo:foo_add')
 
-	def url(self):
+	def get_detail_url(self):
+		return reverse('foo:foo_detail', kwargs={'pk': self.pk})
+
+	def get_delete_url(self):
+		return reverse('foo:foo_delete', kwargs={'pk': self.pk})
+
+	def get_list_url(self):
 		return reverse('foo:foo_list')
 
 	def __str__(self):

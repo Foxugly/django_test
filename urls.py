@@ -50,7 +50,7 @@ urlpatterns = [
     path('', home, name='home'),
     path('test/', test, name='test'),
     path('foo/', include('foo.urls', namespace='foo')),
-    path('i18n/', include('django.conf.urls.i18n')),
+    #path('i18n/', include('django.conf.urls.i18n')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('hijack/', include('hijack.urls', namespace='hijack')),

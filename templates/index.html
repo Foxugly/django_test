@@ -12,7 +12,7 @@
 		<table class="table table-striped">
 			<tbody>
 	{% for model in list %}
-		<tr><td><a href= '{{model.url}}'}>{{model|verbose_name}}</a></td></tr>
+		<tr><td><a href= '{{model.get_list_url}}'}>{{model|verbose_name}}</a></td></tr>
 	{% endfor %}
 		  </tbody>
 		</table>

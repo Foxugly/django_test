@@ -28,7 +28,7 @@
 				<ul class="navbar-nav navbar-right">
 					<li>
 						<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-							<form name="ui" action="{% url 'set_language' %}" method="post">{% csrf_token %}
+							<form name="ui" action="" method="post">{% csrf_token %}
 							<input name="language" type="hidden"/>
 							{% get_current_language as LANGUAGE_CODE %}
 							{% get_available_languages as LANGUAGES %}
