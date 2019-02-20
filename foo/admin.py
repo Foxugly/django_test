@@ -4,15 +4,15 @@ from foo.models import Bar, Multibar, Foo
 
 
 class BarAdmin(admin.ModelAdmin):
-	pass
+    pass
 
 
 class MultibarAdmin(admin.ModelAdmin):
-	pass
+    pass
 
 
 class FooAdmin(admin.ModelAdmin):
-	pass
+    pass
 
 
 admin.site.register(Bar, BarAdmin)

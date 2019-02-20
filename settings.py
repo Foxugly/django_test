@@ -101,13 +101,11 @@ DATABASES = {
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {   'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',    },
-    {   'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',    },
-    {   'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',    },
-    {   'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', },
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator', },
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
 ]
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -129,10 +127,9 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale'), ]
 
 STATIC_URL = '/static/'
 # ACTIVE TO PROD / COMMENT TO TEST
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # COMMENT TO PROD / ACTIVE TO TEST
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]
-
 
 HIJACK_LOGIN_REDIRECT_URL = '/'
 HIJACK_LOGOUT_REDIRECT_URL = '/'
@@ -142,9 +139,7 @@ HIJACK_ALLOW_GET_REQUESTS = True
 
 # if AUTH_USER_MODEL then HIJACK_REGISTER_ADMIN = False
 HIJACK_REGISTER_ADMIN = False
-AUTH_USER_MODEL = "customuser.CustomUser" 
-
-
+AUTH_USER_MODEL = "customuser.CustomUser"
 
 if DEBUG:
     def show_toolbar(request):
@@ -153,7 +148,6 @@ if DEBUG:
     DEBUG_TOOLBAR_CONFIG = {
         'SHOW_TOOLBAR_CALLBACK': 'settings.show_toolbar',
     }
-
 
 BOOTSTRAP4 = {
 
@@ -224,7 +218,7 @@ BOOTSTRAP4 = {
     'success_css_class': 'has-success',
 
     # Renderers (only set these if you have studied the source and understand the inner workings)
-    'formset_renderers':{
+    'formset_renderers': {
         'default': 'bootstrap4.renderers.FormsetRenderer',
     },
     'form_renderers': {

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
+from settings import LANGUAGES
 
 
 class CustomUserManager(BaseUserManager):
@@ -22,11 +23,11 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
-
+    language = models.CharField(_("language"), max_length=8, choices=LANGUAGES, default=1)
     is_foo_admin = models.BooleanField(_("Foo admin"), default=False, help_text=_('Designates users that are foo Admin.'),)
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'username'
 
     def __str__(self):
-    	return self.username
+        return self.username

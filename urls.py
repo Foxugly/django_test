@@ -14,27 +14,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, reverse
 from django.conf.urls.static import static
 from django.conf import settings
 from django.apps import apps
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.utils import translation
 from django import http
 import json
+from customuser.views import CustomUserUpdateView
+from customuser.decorators import check_lang
 
 
+@check_lang
 def home(request):
-    if translation.LANGUAGE_SESSION_KEY in request.session:
-        del request.session[translation.LANGUAGE_SESSION_KEY]
     c = {}
     available_apps = {}
     for app in apps.get_models():
         if not app.__module__.startswith("django"):
             a = app.__module__.split('.models')[0]
             if a in available_apps:
-               available_apps[a].append(app)
+                available_apps[a].append(app)
             else:
                 available_apps[a] = [app]
     c['apps'] = available_apps
@@ -42,17 +43,28 @@ def home(request):
 
 
 def test(request):
-    return render(request,"test.html")
+    return render(request, "test.html")
 
+
+def set_language(request):
+    if 'lang' in request.GET and 'next' in request.GET:
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY]
+        translation.activate(request.GET.get('lang'))
+        request.session[translation.LANGUAGE_SESSION_KEY] = request.GET.get('lang')
+        return HttpResponseRedirect(request.GET.get('next'))
+    else:
+        return reverse('home')
 
 urlpatterns = [
 
     path('', home, name='home'),
     path('test/', test, name='test'),
     path('foo/', include('foo.urls', namespace='foo')),
-    #path('i18n/', include('django.conf.urls.i18n')),
+    path('lang/', set_language, name='lang'),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/update/', check_lang(CustomUserUpdateView.as_view()), name='update_user'),
     path('hijack/', include('hijack.urls', namespace='hijack')),
 ]
 
@@ -62,4 +74,3 @@ if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
         path('__debug__/', include(debug_toolbar.urls))]
-

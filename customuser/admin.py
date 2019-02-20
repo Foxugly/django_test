@@ -4,8 +4,9 @@ from customuser.models import CustomUser
 from django.contrib.auth.models import Group
 from hijack_admin.admin import HijackUserAdminMixin
 
+
 class CustomUserAdmin(UserAdmin, HijackUserAdminMixin):
-	pass
+    pass
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
