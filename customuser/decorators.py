@@ -8,7 +8,7 @@ def check_lang(function):
                 del request.session[translation.LANGUAGE_SESSION_KEY]
             translation.activate(request.user.language)
             request.session[translation.LANGUAGE_SESSION_KEY] = request.user.language
-            return function(request, *args, **kwargs)
+        return function(request, *args, **kwargs)
 
     wrap.__doc__ = function.__doc__
     wrap.__name__ = function.__name__
