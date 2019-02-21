@@ -3,27 +3,31 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView, D
 from foo.models import Foo, Bar, Multibar
 from django.urls import reverse_lazy
 from view_breadcrumbs import ListBreadcrumbMixin, UpdateBreadcrumbMixin, DetailBreadcrumbMixin, CreateBreadcrumbMixin
+from django.contrib.messages.views import SuccessMessageMixin
 
 
-class FooCreateView(CreateBreadcrumbMixin, CreateView):
+class FooCreateView(SuccessMessageMixin, CreateBreadcrumbMixin, CreateView):
     model = Foo
     fields = '__all__'
     template_name = 'update.html'
     success_url = reverse_lazy('foo:foo_list')
+    success_message = _('object created.')
 
 
-class BarCreateView(CreateBreadcrumbMixin, CreateView):
+class BarCreateView(SuccessMessageMixin, CreateBreadcrumbMixin, CreateView):
     model = Bar
     fields = '__all__'
     template_name = 'update.html'
     success_url = reverse_lazy('foo:bar_list')
+    success_message = _('object created.')
 
 
-class MultibarCreateView(CreateBreadcrumbMixin, CreateView):
+class MultibarCreateView(SuccessMessageMixin, CreateBreadcrumbMixin, CreateView):
     model = Multibar
     fields = '__all__'
     template_name = 'update.html'
     success_url = reverse_lazy('foo:multibar_list')
+    success_message = _('object created.')
 
 
 class FooListView(ListBreadcrumbMixin, ListView):
@@ -65,11 +69,12 @@ class MultibarListView(ListBreadcrumbMixin, ListView):
         return context
 
 
-class FooUpdateView(UpdateBreadcrumbMixin, UpdateView):
+class FooUpdateView(SuccessMessageMixin, UpdateBreadcrumbMixin, UpdateView):
     model = Foo
     fields = '__all__'
     template_name = 'update.html'
     success_url = reverse_lazy('foo:foo_list')
+    success_message = _('object updated.')
 
     def get_object(self):
         return Foo.objects.get(pk=self.kwargs['pk'])
@@ -80,12 +85,13 @@ class FooUpdateView(UpdateBreadcrumbMixin, UpdateView):
         return context
 
 
-class BarUpdateView(UpdateBreadcrumbMixin, UpdateView):
+class BarUpdateView(SuccessMessageMixin, UpdateBreadcrumbMixin, UpdateView):
     model = Bar
     fields = '__all__'
     template_name = 'update.html'
     success_url = reverse_lazy('foo:bar_list')
-
+    success_message = _('object updated.')
+    
     def get_object(self):
         return Bar.objects.get(pk=self.kwargs['pk'])
 
@@ -95,11 +101,12 @@ class BarUpdateView(UpdateBreadcrumbMixin, UpdateView):
         return context
 
 
-class MultibarUpdateView(UpdateBreadcrumbMixin, UpdateView):
+class MultibarUpdateView(SuccessMessageMixin, UpdateBreadcrumbMixin, UpdateView):
     model = Multibar
     fields = '__all__'
     template_name = 'update.html'
     success_url = reverse_lazy('foo:multibar_list')
+    success_message = _('object updated.')
 
     def get_object(self):
         return Multibar.objects.get(pk=self.kwargs['pk'])
@@ -125,8 +132,9 @@ class MultibarDetailView(DetailBreadcrumbMixin, DetailView):
     template_name = 'detail.html'
 
 
-class FooDeleteView(DeleteView):
+class FooDeleteView(SuccessMessageMixin, DeleteView):
     model = Foo
+    success_message = _('object deleted.')
 
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
@@ -135,8 +143,9 @@ class FooDeleteView(DeleteView):
         return reverse_lazy('foo:foo_list')
 
 
-class BarDeleteView(DeleteView):
+class BarDeleteView(SuccessMessageMixin, DeleteView):
     model = Bar
+    success_message = _('object deleted.')
 
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
@@ -145,8 +154,9 @@ class BarDeleteView(DeleteView):
         return reverse_lazy('foo:bar_list')
 
 
-class MultibarDeleteView(DeleteView):
+class MultibarDeleteView(SuccessMessageMixin, DeleteView):
     model = Multibar
+    success_message = _('object deleted.')
 
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
