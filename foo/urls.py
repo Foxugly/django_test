@@ -1,7 +1,5 @@
 from foo.views import FooListView, BarListView, MultibarListView, FooUpdateView, BarUpdateView, MultibarUpdateView, FooDetailView, BarDetailView, MultibarDetailView, FooCreateView, BarCreateView, MultibarCreateView, FooDeleteView, BarDeleteView, MultibarDeleteView
 from django.urls import path
-from django.apps import apps
-from django.shortcuts import render
 
 
 app_name = 'foo'
