@@ -4,6 +4,7 @@ from foo.models import Foo, Bar, Multibar
 from django.urls import reverse_lazy
 from view_breadcrumbs import ListBreadcrumbMixin, UpdateBreadcrumbMixin, DetailBreadcrumbMixin, CreateBreadcrumbMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.utils.translation import gettext as _
 
 
 class FooCreateView(SuccessMessageMixin, CreateBreadcrumbMixin, CreateView):

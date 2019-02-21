@@ -25,6 +25,8 @@ SECRET_KEY = '1bjb+q*)dcd6-lwml5nn-n2v&b655^6sc@3#nqt*sg*dbjmo+0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+STATE = 'DEV' # or ACC or PROD
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -74,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'customuser.context_processors.debug',
             ],
             'libraries': {
                 'common_tags': 'common_tags',

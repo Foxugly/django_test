@@ -27,7 +27,7 @@ from customuser.views import CustomUserUpdateView
 from customuser.decorators import check_lang
 
 
-@check_lang
+#@check_lang
 def home(request):
     c = {}
     available_apps = {}
