@@ -36,7 +36,6 @@ class FooListView(ListBreadcrumbMixin, ListView):
     paginate_by = 10
     ordering = ['pk']
     template_name = 'list.html'
-    success_url = reverse_lazy('foo_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -49,7 +48,6 @@ class BarListView(ListBreadcrumbMixin, ListView):
     paginate_by = 10
     ordering = ['pk']
     template_name = 'list.html'
-    success_url = reverse_lazy('foo:bar_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -62,7 +60,6 @@ class MultibarListView(ListBreadcrumbMixin, ListView):
     paginate_by = 10
     ordering = ['pk']
     template_name = 'list.html'
-    success_url = reverse_lazy('foo:multibar_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
