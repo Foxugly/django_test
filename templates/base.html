@@ -6,72 +6,10 @@
 		{% bootstrap_css %}
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="{% static 'select2/css/bootstrap-select.css' %}" />
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/b-1.5.4/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" href='{% static "bootstrap4-datetimepicker-master/build/css/bootstrap-datetimepicker.min.css" %}' />
 		<link rel="stylesheet" type="text/css" href="{% static 'hijack/hijack-styles.css' %}" />
-		<style>
-			body {
-				padding-top: 4.5rem;
-			}
-			.box{
-				position: relative;
-				/*max-width: 600px;*/
-				/*-width: 95%;*/
-				/*height : 400px;*/
-				background: #fff;
-				box-shadow: 0 0 15px rgba(0,0,0,.1);
-			}
-			/* common */
-			.ribbon {
-			  width: 150px;
-			  height: 150px;
-			  overflow: hidden;
-			  position: absolute;
-			}
-			.ribbon::before,
-			.ribbon::after {
-			  position: absolute;
-			  z-index: -1;
-			  content: '';
-			  display: block;
-			  border: 5px solid #2980b9;
-			}
-			.ribbon span {
-			  position: absolute;
-			  display: block;
-			  width: 225px;
-			  padding: 15px 0;
-			  background-color: #3498db;
-			  box-shadow: 0 5px 10px rgba(0,0,0,.1);
-			  color: #fff;
-			  font: 700 18px/1 'Lato', sans-serif;
-			  text-shadow: 0 1px 1px rgba(0,0,0,.2);
-			  text-transform: uppercase;
-			  text-align: center;
-			}
-
-			/* top left*/
-			.ribbon-top-left {
-			  top: -10px;
-			  left: -10px;
-			}
-			.ribbon-top-left::before,
-			.ribbon-top-left::after {
-			  border-top-color: transparent;
-			  border-left-color: transparent;
-			}
-			.ribbon-top-left::before {
-			  top: 0;
-			  right: 0;
-			}
-			.ribbon-top-left::after {
-			  bottom: 0;
-			  left: 0;
-			}
-			.ribbon-top-left span {
-			  right: -25px;
-			  top: 30px;
-			  transform: rotate(-45deg);
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
 	</head>
 	<body>
 		{% if DEBUG %}
@@ -132,12 +70,74 @@
 			{% block content %}{% endblock content %}
 		</div>
 		{% bootstrap_javascript jquery='full' %}
-		<script type="text/javascript" src="{% static 'select2/js/bootstrap-select.js' %}"></script>
-		<script>
-			$(document).ready(function(){$('select').selectpicker();});
-		</script>
-		{% if DEBUG %}
-			</div>
-		{% endif %}
-	</body>
+		 <script type="text/javascript" src="{% static 'bootbox/bootbox.min.js' %}"></script>
+    <script type="text/javascript" src="//momentjs.com/downloads/moment-with-locales.js"></script>
+    <script type="text/javascript" src="{% static 'select2/js/bootstrap-select.js' %}"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/b-1.5.4/datatables.min.js"></script>
+    <script type="text/javascript" src='{% static "bootstrap4-datetimepicker-master/build/js/bootstrap-datetimepicker.min.js" %}'></script>
+
+  <script>
+
+    $(document).ready(function(){
+
+        $('.confirmation').on('click', function (e) {
+            e.preventDefault();
+            href = $(this).attr('href');
+            bootbox.confirm({
+                message: "{% trans "Do you really want to delete selected object ?" %}",
+                buttons: {
+                    confirm: {
+                        label: "{% trans "Yes" %}",
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: "{% trans "No" %}",
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                  if (result) {
+                    window.location = href
+                  }
+                }
+            }); // end bootbox.confirm
+        }); // end click
+
+      $('select').selectpicker();
+
+
+      $('#table_datatable').DataTable({
+          'dom': "<'row mt-2'<'col-sm-5 col-md-5'f><'col-sm-4 col-md-4'l> <'col-sm-3 col-md-3 text-right'B>>" +
+              "<'row'<'col-sm-12'tr>>" +
+              "<'row mb-5'<'col-sm-7 col-md-7'p><'col-sm-5 col-md-5'i>>" ,
+          'buttons' : [
+              {   text: '<span class="fa fa-plus"></span> {% trans 'Add' %}',
+                  className: 'btn btn-primary',
+                  action: function () {
+                      window.location.replace('{{ model.get_add_url }}');
+                  }
+              }
+          ],
+          'language' : {
+              {% if LANGUAGE_CODE == "fr" %} "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/French.json" {% endif %}
+              {% if LANGUAGE_CODE == "nl" %} "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Dutch.json" {% endif %}
+              {% if LANGUAGE_CODE == "en" %} "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/English.json" {% endif %}
+          },   
+      }); // end datatable
+
+      {% for key, value in add_class_to_fields.items %}
+        {% if value == "datetime" %}
+          $( {{ key }} ).datetimepicker({locale: '{{LANGUAGE_CODE}}', format: 'LLLL'});
+        {% elif value == "date" %}
+          $( {{ key }} ).datetimepicker({locale: '{{LANGUAGE_CODE}}', format: 'L'});
+        {% elif value == "time" %}
+          $( {{ key }} ).datetimepicker({locale: '{{LANGUAGE_CODE}}', format: 'LTS'});
+        {% endif %}
+      {% endfor %}
+  }); // end document
+  </script>
+    {% if DEBUG %}
+      </div>
+    {% endif %}
+  </body>
 </html>

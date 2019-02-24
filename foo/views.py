@@ -14,6 +14,12 @@ class FooCreateView(SuccessMessageMixin, CreateBreadcrumbMixin, CreateView):
     success_url = reverse_lazy('foo:foo_list')
     success_message = _('object created.')
 
+    def get_context_data(self, **kwargs):
+        context = super(FooCreateView, self).get_context_data(**kwargs)
+        # add id and format for the template
+        # context['add_class_to_fields'] = {'id_datetime': 'datetime'}
+        return context
+
 
 class BarCreateView(SuccessMessageMixin, CreateBreadcrumbMixin, CreateView):
     model = Bar
@@ -33,9 +39,9 @@ class MultibarCreateView(SuccessMessageMixin, CreateBreadcrumbMixin, CreateView)
 
 class FooListView(ListBreadcrumbMixin, ListView):
     model = Foo
-    paginate_by = 10
+    #paginate_by = 10 # done by datatable
     ordering = ['pk']
-    template_name = 'list.html'
+    template_name = 'list_datatable.html' # datatable
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
