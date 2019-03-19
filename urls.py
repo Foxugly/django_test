@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import handler400, handler403, handler404, handler500
 from django.contrib import admin
 from django.urls import path, include, reverse
 from django.conf.urls.static import static
@@ -74,3 +75,27 @@ if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
         path('__debug__/', include(debug_toolbar.urls))]
+ 
+if not settings.DEBUG:
+    handler400 = '.urls.bad_request'
+    handler403 = '.urls.permission_denied'
+    handler404 = '.urls.page_not_found'
+    handler500 = '.urls.server_error'
+
+def bad_request(request):
+    context = {}
+    return render(request, '400.html', context, status=400)
+
+
+def permission_denied(request):
+    context = {}
+    return render(request, '403.html', context, status=403)
+
+def page_not_found(request):
+    context = {}
+    return render(request, '404.html', context, status=404)
+
+
+def server_error(request):
+    context = {}
+    return render(request, '500.html', context, status=500)
