@@ -1,169 +1,59 @@
-from django.shortcuts import render
-from django.views.generic import CreateView, UpdateView, DeleteView, ListView, DetailView
+from tools.generic_views import *
 from foo.models import Foo, Bar, Multibar
-from django.urls import reverse_lazy
-from view_breadcrumbs import ListBreadcrumbMixin, UpdateBreadcrumbMixin, DetailBreadcrumbMixin, CreateBreadcrumbMixin
-from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext as _
 
 
-class FooCreateView(SuccessMessageMixin, CreateBreadcrumbMixin, CreateView):
+class FooCreateView(GenericCreateView):
     model = Foo
-    fields = '__all__'
-    template_name = 'update.html'
-    success_url = reverse_lazy('foo:foo_list')
-    success_message = _('object created.')
-
-    def get_context_data(self, **kwargs):
-        context = super(FooCreateView, self).get_context_data(**kwargs)
-        # add id and format for the template
-        # context['add_class_to_fields'] = {'id_datetime': 'datetime'}
-        return context
 
 
-class BarCreateView(SuccessMessageMixin, CreateBreadcrumbMixin, CreateView):
+class BarCreateView(GenericCreateView):
     model = Bar
-    fields = '__all__'
-    template_name = 'update.html'
-    success_url = reverse_lazy('foo:bar_list')
-    success_message = _('object created.')
 
 
-class MultibarCreateView(SuccessMessageMixin, CreateBreadcrumbMixin, CreateView):
+class MultibarCreateView(GenericCreateView):
     model = Multibar
-    fields = '__all__'
-    template_name = 'update.html'
-    success_url = reverse_lazy('foo:multibar_list')
-    success_message = _('object created.')
 
 
-class FooListView(ListBreadcrumbMixin, ListView):
+class FooListView(GenericListView):
     model = Foo
-    #paginate_by = 10 # done by datatable
-    ordering = ['pk']
-    template_name = 'list_datatable.html' # datatable
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['model'] = self.model
-        return context
 
 
-class BarListView(ListBreadcrumbMixin, ListView):
+class BarListView(GenericListView):
     model = Bar
-    paginate_by = 10
-    ordering = ['pk']
-    template_name = 'list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['model'] = self.model
-        return context
 
 
-class MultibarListView(ListBreadcrumbMixin, ListView):
+class MultibarListView(GenericListView):
     model = Multibar
-    paginate_by = 10
-    ordering = ['pk']
-    template_name = 'list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['model'] = self.model
-        return context
 
 
-class FooUpdateView(SuccessMessageMixin, UpdateBreadcrumbMixin, UpdateView):
+class FooUpdateView(GenericUpdateView):
     model = Foo
-    fields = '__all__'
-    template_name = 'update.html'
-    success_url = reverse_lazy('foo:foo_list')
-    success_message = _('object updated.')
-
-    def get_object(self):
-        return Foo.objects.get(pk=self.kwargs['pk'])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['model'] = self.model
-        return context
 
 
-class BarUpdateView(SuccessMessageMixin, UpdateBreadcrumbMixin, UpdateView):
+class BarUpdateView(GenericUpdateView):
     model = Bar
-    fields = '__all__'
-    template_name = 'update.html'
-    success_url = reverse_lazy('foo:bar_list')
-    success_message = _('object updated.')
-    
-    def get_object(self):
-        return Bar.objects.get(pk=self.kwargs['pk'])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['model'] = self.model
-        return context
 
 
-class MultibarUpdateView(SuccessMessageMixin, UpdateBreadcrumbMixin, UpdateView):
+class MultibarUpdateView(GenericUpdateView):
     model = Multibar
-    fields = '__all__'
-    template_name = 'update.html'
-    success_url = reverse_lazy('foo:multibar_list')
-    success_message = _('object updated.')
-
-    def get_object(self):
-        return Multibar.objects.get(pk=self.kwargs['pk'])
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['model'] = self.model
-        return context
 
 
-class FooDetailView(DetailBreadcrumbMixin, DetailView):
+class FooDetailView(GenericDetailView):
     model = Foo
-    template_name = 'detail.html'
 
 
-class BarDetailView(DetailBreadcrumbMixin, DetailView):
+class BarDetailView(GenericDetailView):
     model = Bar
-    template_name = 'detail.html'
 
 
-class MultibarDetailView(DetailBreadcrumbMixin, DetailView):
+class MultibarDetailView(GenericDetailView):
     model = Multibar
-    template_name = 'detail.html'
 
 
-class FooDeleteView(SuccessMessageMixin, DeleteView):
+class FooDeleteView(GenericDeleteView):
     model = Foo
-    success_message = _('object deleted.')
-
-    def get(self, *args, **kwargs):
-        return self.post(*args, **kwargs)
-
-    def get_success_url(self):
-        return reverse_lazy('foo:foo_list')
 
 
-class BarDeleteView(SuccessMessageMixin, DeleteView):
-    model = Bar
-    success_message = _('object deleted.')
-
-    def get(self, *args, **kwargs):
-        return self.post(*args, **kwargs)
-
-    def get_success_url(self):
-        return reverse_lazy('foo:bar_list')
-
-
-class MultibarDeleteView(SuccessMessageMixin, DeleteView):
+class MultibarDeleteView(GenericDeleteView):
     model = Multibar
-    success_message = _('object deleted.')
-
-    def get(self, *args, **kwargs):
-        return self.post(*args, **kwargs)
-
-    def get_success_url(self):
-        return reverse_lazy('foo:multibar_list')
